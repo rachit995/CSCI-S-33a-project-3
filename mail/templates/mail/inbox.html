@@ -1,37 +1,55 @@
 {% extends "mail/layout.html" %}
 {% load static %}
-
 {% block body %}
-    <h2>{{ request.user.email }}</h2>
-
+    <h2 class="my-4">{{ request.user.email }}</h2>
     <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
     <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
     <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
     <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
-    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    <a class="btn btn-sm btn-outline-danger" href="{% url 'logout' %}">Log Out</a>
     <hr>
-
-    <div id="emails-view">
-    </div>
-
+    <div id="emails-view" class="my-3"></div>
     <div id="compose-view">
-        <h3>New Email</h3>
+        <h3 class="my-3">New Email</h3>
+        <div class="mt-3" id="alert-error"></div>
         <form id="compose-form">
-            <div class="form-group">
-                From: <input disabled class="form-control" value="{{ request.user.email }}">
+            <div class="mb-3 form-floating">
+                <input type="email"
+                       readonly
+                       class="form-control text-body-secondary"
+                       value="{{ request.user.email }}"
+                       id="from"
+                       placeholder="name@example.com">
+                <label for="from" disabled>From</label>
             </div>
-            <div class="form-group">
-                To: <input id="compose-recipients" class="form-control">
+            <div class="mb-3 form-floating">
+                <input type="email"
+                       class="form-control"
+                       id="compose-recipients"
+                       required
+                       placeholder="name@example.com">
+                <label for="compose-recipients">To</label>
             </div>
-            <div class="form-group">
-                <input class="form-control" id="compose-subject" placeholder="Subject">
+            <div class="mb-3 form-floating">
+                <input type="text"
+                       class="form-control"
+                       id="compose-subject"
+                       required
+                       placeholder="Subject">
+                <label for="compose-subject">Subject</label>
             </div>
-            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-            <input type="submit" class="btn btn-primary"/>
+            <div class="form-floating mb-3">
+                <textarea class="form-control"
+                          id="compose-body"
+                          style="height: 200px"
+                          required
+                          placeholder="Body"></textarea>
+                <label for="compose-body">Body</label>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Send" />
         </form>
     </div>
 {% endblock %}
-
 {% block script %}
     <script src="{% static 'mail/inbox.js' %}"></script>
 {% endblock %}
