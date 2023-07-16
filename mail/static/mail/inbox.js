@@ -25,6 +25,8 @@ function compose_email(type = 'new') {
   if (type === 'reply') {
     document.querySelector('#compose-title').innerHTML = 'Reply';
   } else {
+    // Set focus to recipients field when compose email is loaded
+    document.querySelector('#compose-recipients').focus();
     document.querySelector('#compose-title').innerHTML = 'New Email';
   }
 }
@@ -141,7 +143,7 @@ function load_mailbox(mailbox) {
           <small>${email.timestamp}</small>
         </div>
         <p class="mb-1">${email.subject}</p>
-        <small>${email.body}</small>
+        <small class="text-muted">${email.body.length > 100 ? email.body.substring(0, 100) + '...' : email.body}</small>
         `;
           // Check if email is read and set background color
           if (isRead) {
@@ -192,8 +194,14 @@ function reply_email(email, mailbox) {
   else {
     document.querySelector('#compose-recipients').value = email.sender;
   }
-  document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
-  document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: ${email.body}`;
+  // if subject does not start with 'Re: ' then add 'Re: ' to subject
+  document.querySelector('#compose-subject').value = email.subject.startsWith('Re: ') ? email.subject : `Re: ${email.subject}`;
+  document.querySelector('#compose-body').value = `\n\nOn ${email.timestamp} ${email.sender} wrote: ${email.body}`;
+  // Set focus to body field when reply email is loaded and set cursor to start of text
+  document.querySelector('#compose-body').focus();
+  document.querySelector('#compose-body').setSelectionRange(0, 0);
+
+
 }
 
 /**
@@ -244,8 +252,8 @@ function load_email(id, mailbox) {
           '<button class="btn btn-sm btn-outline-primary" id="archive">Archive</button>'
         }
       <hr>
-      <p>${email.body}</p>
-      `;
+      <p>${email.body.replace(/\n/g, "<br>")}</p >
+    `;
       // Check if email is archived and set button text
       if (email.archived) {
         document.querySelector('#archive').innerHTML = 'Unarchive';
