@@ -196,7 +196,7 @@ function reply_email(email, mailbox) {
   }
   // if subject does not start with 'Re: ' then add 'Re: ' to subject
   document.querySelector('#compose-subject').value = email.subject.startsWith('Re: ') ? email.subject : `Re: ${email.subject}`;
-  document.querySelector('#compose-body').value = `\n\nOn ${email.timestamp} ${email.sender} wrote: ${email.body}`;
+  document.querySelector('#compose-body').value = `\n\nOn ${email.timestamp} ${email.sender} wrote: \n\n    ${email.body}`;
   // Set focus to body field when reply email is loaded and set cursor to start of text
   document.querySelector('#compose-body').focus();
   document.querySelector('#compose-body').setSelectionRange(0, 0);
@@ -247,16 +247,18 @@ function load_email(id, mailbox) {
       <p><strong>To:</strong> ${email.recipients}</p>
       <p><strong>Subject:</strong> ${email.subject}</p>
       <p><strong>Timestamp:</strong> ${email.timestamp}</p>
-      <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
+      <button class="btn btn-sm btn-outline-primary" id="reply"><i class="fas fa-reply"></i> Reply</button>
       ${mailbox === 'sent' ? '' :
-          '<button class="btn btn-sm btn-outline-primary" id="archive">Archive</button>'
+          `<button class="btn btn-sm btn-outline-primary" id="archive"><i class="fas fa-archive"></i> Archive</button>`
         }
       <hr>
-      <p>${email.body.replace(/\n/g, "<br>")}</p >
+      <p id="email-body">${email.body}</p>
     `;
+      // Set email body white space to pre-wrap to preserve line breaks and spaces
+      document.querySelector('#email-body').style.whiteSpace = 'pre-wrap';
       // Check if email is archived and set button text
       if (email.archived) {
-        document.querySelector('#archive').innerHTML = 'Unarchive';
+        document.querySelector('#archive').innerHTML = `<i class="fas fa-archive"></i> Unarchive`;
       }
       // Add event listener to reply button
       document.querySelector('#reply').addEventListener('click', () => {

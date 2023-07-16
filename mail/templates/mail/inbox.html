@@ -2,14 +2,32 @@
 {% load static %}
 {% block body %}
     <h2 class="my-4">{{ request.user.email }}</h2>
-    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
-    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
-    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
-    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+    <button class="btn btn-sm btn-outline-primary" id="inbox">
+        <i class="fas fa-inbox"></i>
+        Inbox
+    </button>
+    <button class="btn btn-sm btn-outline-primary" id="compose">
+        <i class="fas fa-plus"></i>
+        Compose
+    </button>
+    <button class="btn btn-sm btn-outline-primary" id="sent">
+        <i class="fas fa-paper-plane"></i>
+        Sent
+    </button>
+    <button class="btn btn-sm btn-outline-primary" id="archived">
+        <i class="fas fa-archive"></i>
+        Archived
+    </button>
     <a class="btn btn-sm btn-outline-primary"
        target="_blank"
-       href="https://github.com/rachit995/CSCI-S-33a-project-3">Github</a>
-    <a class="btn btn-sm btn-outline-danger" href="{% url 'logout' %}">Log Out</a>
+       href="https://github.com/rachit995/CSCI-S-33a-project-3">
+        <i class="fab fa-github"></i>
+        Github
+    </a>
+    <a class="btn btn-sm btn-outline-danger" href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i>
+        Log Out
+    </a>
     <hr>
     <div id="emails-view" class="my-3"></div>
     <div id="compose-view">
@@ -49,7 +67,10 @@
                           placeholder="Body"></textarea>
                 <label for="compose-body">Body</label>
             </div>
-            <input type="submit" class="btn btn-primary" value="Send" />
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i>
+                Send Email
+            </button
         </form>
     </div>
 {% endblock %}
